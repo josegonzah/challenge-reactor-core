@@ -88,4 +88,10 @@ public class Player {
     public void setClub(String club) {
         this.club = club;
     }
+
+    @Override
+    public String toString() {
+        return "Player [age=" + age + ", club=" + club + ", games=" + games + ", icon=" + icon + ", id=" + id
+                + ", name=" + name + ", national=" + national + ", winners=" + winners + "]";
+    }
 }

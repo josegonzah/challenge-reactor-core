@@ -3,6 +3,8 @@ package com.example.demo;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -61,6 +63,26 @@ public class CSVUtilTest {
                 .collectMultimap(Player::getClub);
 
         assert listFilter.block().size() == 322;
+    }
+
+    @ParameterizedTest
+    @CsvSource({ "Los Angeles FC,25", "Paris Saint-Germain,30" })
+    void reactive_filtrarJugadoresPorClub(String club, int countClub) {
+        List<Player> list = CsvUtilFile.getPlayers();
+        Mono<List<Player>> listFilter = Flux.fromStream(list.parallelStream()).cache()
+                .filter(player -> player.club.equals(club)).distinct().collectList();
+        assert listFilter.block().size() == countClub;
+    }
+
+    @ParameterizedTest
+    @CsvSource({ "Uruguay,149", "Colombia,618" })
+    void reactive_filtrarJugadoresPorNacionalidadYOrdenadosPorVictorias(String nationality, int countPlayers) {
+        List<Player> list = CsvUtilFile.getPlayers();
+        Mono<List<Player>> listFilter = Flux.fromStream(list.parallelStream()).cache()
+                .filter(player -> player.national.equals(nationality))
+                .sort(Comparator.comparing(Player::getWinners).reversed()).distinct().collectList();
+
+        assert listFilter.block().size() == countPlayers;
     }
 
 
