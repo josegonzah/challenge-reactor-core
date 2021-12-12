@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Player;
-import com.example.demo.services.Service;
+import com.example.demo.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,23 +15,23 @@ import java.util.List;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api")
-public class Controller {
+public class PlayerController {
     @Autowired
-    Service service;
+    PlayerService playerService;
 
     @Autowired
     Repository repository;
 
     @GetMapping
     public Flux<Player> getFilteredPlayers(){
-        service.getRankingPlayer();
-        return service.getFilterPlayer()
+        playerService.getRankingPlayer();
+        return playerService.getFilterPlayer()
                 .buffer(100)
                 .flatMap(player -> Flux.fromStream(player.parallelStream()));
     }
 
     @GetMapping("/listas")
     public Flux<List<Player>> getListasRankingPlayers(){
-        return service.getRankingPlayer();
+        return playerService.getRankingPlayer();
     }
 }
