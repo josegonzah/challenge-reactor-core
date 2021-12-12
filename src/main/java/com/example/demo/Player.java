@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.demo;
 
 public class Player {
     public int id;
@@ -10,7 +10,7 @@ public class Player {
     public int games;
     public String club;
 
-    public Player(){
+    public Player() {
 
     }
 
@@ -73,6 +73,12 @@ public class Player {
         this.winners = winners;
     }
 
+    @Override
+    public String toString() {
+        return "Player [age=" + age + ", club=" + club + ", games=" + games + ", icon=" + icon + ", id=" + id
+                + ", name=" + name + ", national=" + national + ", winners=" + winners + "]";
+    }
+
     public int getGames() {
         return games;
     }
@@ -87,11 +93,5 @@ public class Player {
 
     public void setClub(String club) {
         this.club = club;
-    }
-
-    @Override
-    public String toString() {
-        return "Player [age=" + age + ", club=" + club + ", games=" + games + ", icon=" + icon + ", id=" + id
-                + ", name=" + name + ", national=" + national + ", winners=" + winners + "]";
     }
 }
